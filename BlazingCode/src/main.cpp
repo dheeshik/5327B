@@ -54,7 +54,7 @@ void run_intake() {
   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
     intake.move_velocity(600);
     pros::lcd::set_text(6, "r2");
-    flywheel.set_brake_mode(MOTOR_BRAKE_BRAKE);
+    flywheel.set_brake_mode(MOTOR_BRAKE_BRAKE); // brakes the flywheel if velocity set to 0
   }
   else {
      intake.move_velocity(0);
@@ -206,9 +206,9 @@ void autonomous() {
 
 void opcontrol() {
   // This is preference to what you like to drive on.
-  chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
+  chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  flywheel.set_brake_mode(MOTOR_BRAKE_COAST);
+  flywheel.set_brake_mode(MOTOR_BRAKE_COAST); // lets flywheel freespin
   int iter = 0;
   while (true) {
     chassis.arcade_standard(ez::SPLIT);
