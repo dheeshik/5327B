@@ -153,18 +153,35 @@ void initialize() {
 }
 */
 
+void on_center_button() {
+  static bool pressed = false;
+  pressed = !pressed;
+  if (pressed) {
+    pros::lcd::set_text(2, "I was pressed!");
+  } else {
+    pros::lcd::clear_line(2);
+  }
+}
 
 void initialize()
 {
   pros::screen::set_pen(COLOR_RED);
+  pros::lcd::initialize();
+  //pros::lcd::register_btn0_cb(on_center_button);
+  //pros::lcd::set_text(7, "Hello World!");
+  pros::lcd::print(6, "Goofy ah", pros::lcd::read_buttons());
+  //pros::lcd::initialize();
   //ez::as::initialize();
-  // ez::as::auton_selector.add_autons({
-  //   Auton("Autonomous 1\nDrive And Turn", drive_and_turn),
-  // });
-  // ez::as::auton_selector.print_selected_auton();
-  // pros::lcd::register_btn0_cb(ez::as::page_down);
-  // pros::lcd::register_btn2_cb(ez::as::page_up);
-  // ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
+  //ez::as::auton_selector.add_autons({
+    //Auton("Autonomous 1\nDrive Example", drive_example),
+    //Auton("Autonomous 2\nDrive And Turn", drive_and_turn),
+    //Auton("Autonomous 3\nTurn Example", turn_example),
+    //Auton("Autonomous 4\nLeft Autonoumous", l_auton),
+  //});
+  //ez::as::auton_selector.print_selected_auton();
+  //pros::lcd::register_btn0_cb(ez::as::page_down);
+  //pros::lcd::register_btn2_cb(ez::as::page_up);
+  //ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
   // //l_auton();
 }
 
@@ -177,13 +194,14 @@ void autonomous() {
   chassis.reset_drive_sensor();
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
-  //ez::as::auton_selector.call_selected_auton();
+  ez::as::auton_selector.call_selected_auton();
   //
   //l_auton();
   //rollerAuton();
   //goofyahAuton();
-  //drive_and_turn();
-  generatedAuton();
+  //drive_example();
+  //generatedAuton();
+  skillsAuton();
 }
 
 void opcontrol() {

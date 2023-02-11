@@ -35,7 +35,16 @@ void default_constants() {
   chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
 }
 */
-
+void DheeshikConstants() {
+  chassis.set_slew_min_power(80, 80);
+  chassis.set_slew_distance(7, 7);
+  chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);
+  chassis.set_pid_constants(&chassis.forward_drivePID, 5, 1, 5, 0);
+  chassis.set_pid_constants(&chassis.backward_drivePID, 5, 1, 5, 0);
+  chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);
+  chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
+  intakePID.set_exit_condition(100, 3, 500, 7, 500, 500);
+}
 void default_constants() {
   chassis.set_slew_min_power(80, 80);
   chassis.set_slew_distance(7, 7);
@@ -96,6 +105,9 @@ void expand(){
   piston3Extended = (true);
 }
 
+void skillsAuton(){
+
+}
 
 void generatedAuton(){
   //first roller
@@ -256,7 +268,6 @@ void drive_example() {
   // The second parameter is max speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
   // for slew, only enable it when the drive distance is greater then the slew distance + a few inches
-
 
   chassis.set_drive_pid(24, DRIVE_SPEED, true);
   chassis.wait_drive();
