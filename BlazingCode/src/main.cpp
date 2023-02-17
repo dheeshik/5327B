@@ -194,14 +194,14 @@ void autonomous() {
   chassis.reset_drive_sensor();
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
-  ez::as::auton_selector.call_selected_auton();
+  // ez::as::auton_selector.call_selected_auton();
   //
   //l_auton();
-  //rollerAuton();
+  rollerAuton();
   //goofyahAuton();
   //drive_example();
   //generatedAuton();
-  skillsAuton();
+  //skillsAuton();
 }
 
 void opcontrol() {
