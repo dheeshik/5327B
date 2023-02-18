@@ -153,15 +153,6 @@ void initialize() {
 }
 */
 
-void on_center_button() {
-  static bool pressed = false;
-  pressed = !pressed;
-  if (pressed) {
-    pros::lcd::set_text(2, "I was pressed!");
-  } else {
-    pros::lcd::clear_line(2);
-  }
-}
 
 void initialize()
 {
@@ -195,10 +186,8 @@ void autonomous() {
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
   // ez::as::auton_selector.call_selected_auton();
-  //
-  //l_auton();
-  rollerAuton();
-  //goofyahAuton();
+
+  LeftAuton();
   //drive_example();
   //generatedAuton();
   //skillsAuton();

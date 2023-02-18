@@ -4,7 +4,7 @@
 
 extern Drive chassis;
 
-void rollerAuton();
+void LeftAuton();
 void skillsAuton();
 void generatedAuton();
 void drive_example();
