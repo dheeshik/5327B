@@ -67,17 +67,21 @@ void run_flywheel() {
     flywheel.set_brake_mode(MOTOR_BRAKE_COAST);
     flywheel.move_velocity(600);
     pros::lcd::set_text(6, "L1");
+
   }
+
 
   /*else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
     flywheel.move_velocity(400);
     pros::lcd::set_text(6, "L2");
   }*/
-
   else {
     flywheel.move_velocity(0);
     pros::lcd::set_text(6, "0");
   }
+
+  std::cout << "Flywheel Velocity: "<< std::to_string(flywheel.get_actual_velocity()) << "\n";
+  controller.set_text(0, 0, std::to_string(flywheel.get_actual_velocity()));
 }
 
 void indexer() {
