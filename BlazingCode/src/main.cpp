@@ -119,6 +119,7 @@ void expansion() {
     piston3Extended = false;
   }
 }
+
 /*
 void initialize() {
   pros::ADIDigitalIn increase('A');
@@ -191,10 +192,14 @@ void autonomous() {
 
   // ez::as::auton_selector.call_selected_auton();
 
-  LeftAuton();
+  //flywheelTest();
+  //LeftAuton();
   //drive_example();
-  //generatedAuton();
+  generatedAuton();
   //skillsAuton();
+  //flywheelTest();
+  //turn_example();
+  //swing_example();
 }
 
 void opcontrol() {
@@ -212,5 +217,5 @@ void opcontrol() {
     int right_Y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
     pros::lcd::set_text(7, std::to_string(right_Y));
   }
-    pros::delay(ez::util::DELAY_TIME);
-    }
+  pros::delay(ez::util::DELAY_TIME);
+}
