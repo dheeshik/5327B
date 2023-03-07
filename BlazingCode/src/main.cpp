@@ -1,7 +1,9 @@
 #include "main.h"
 #include <string>
 
-// Chassis constructor
+/**
+ * The constructor for the ChassisControllerPID class through the EZ-Template library
+*/
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
   //   the first port is the sensored port (when trackers are not used!)
@@ -11,7 +13,7 @@ Drive chassis (
   //   the first port is the sensored port (when trackers are not used!)
   ,{-13, 11, -12}
 
-  // IMU Port
+  // IMU (Intertial Mass Unit) Port
   ,5
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
@@ -45,37 +47,40 @@ Drive chassis (
 );
 
 
+
+
+/**
+ * This function is for the intake subsystem of the robot
+ * It detects the button pressed on the controller and runs the intake motor at the desired velocity of 600 rpm
+*/
 void run_intake() {
-  if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+  if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { // run intake forward
     intake.move_velocity(-600);
     pros::lcd::set_text(6, "r1");
-
   }
-  else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+  else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) { // run intake backward when the other right trigger is pressed
     intake.move_velocity(600);
     pros::lcd::set_text(6, "r2");
-    flywheel.set_brake_mode(MOTOR_BRAKE_BRAKE); // brakes the flywheel if velocity set to 0
+    // When intakeing disks, the flywheel motor will be set to the brake mode to stop disks from flying out the back of the robot
+    flywheel.set_brake_mode(MOTOR_BRAKE_BRAKE); 
   }
   else {
-     intake.move_velocity(0);
+     intake.move_velocity(0); // if neither bumper is pressed then stop the intake
      pros::lcd::set_text(6, "0");
   }
+
 }
 
+/**
+ * This functions detects the button pressed on the controller and runs the flywheel motor at the desired velocity of 600 rpm
+*/
 void run_flywheel() {
   if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
     flywheel.set_brake_mode(MOTOR_BRAKE_COAST);
     flywheel.move_velocity(600);
     pros::lcd::set_text(6, "L1");
-
   }
-
-
-  /*else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-    flywheel.move_velocity(400);
-    pros::lcd::set_text(6, "L2");
-  }*/
-  else {
+  else { // when the button is not pressed, the flywheel motor is set to 0 rpm but will still be in the coast mode
     flywheel.move_velocity(0);
     pros::lcd::set_text(6, "0");
   }
@@ -84,6 +89,10 @@ void run_flywheel() {
   controller.set_text(0, 0, std::to_string(flywheel.get_actual_velocity()));
 }
 
+/**
+ * This function detects the button pressed on the controller's B button and extends the indexer piston to shoot the disk
+ * only when the button is realeased will the piston retract
+*/
 void indexer() {
   bool pistonExtended;
   if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
@@ -98,9 +107,9 @@ void indexer() {
   }
 }
 
-void indexerOff() {
-}
-
+/**
+ * This function detects the button pressed on the controller's Y button and extends the the two pistons on the expansion mechanism
+*/
 void expansion() {
   bool piston2Extended;
   bool piston3Extended;
@@ -120,78 +129,31 @@ void expansion() {
   }
 }
 
-/*
-void initialize() {
-  pros::ADIDigitalIn increase('A');
-  pros::ADIDigitalIn decrease('B');
-  // Print our branding over your terminal :D
-  //ez::print_ez_template();
-
-  //pros::delay(500); // Stop the user from doing anything while legacy ports configure.
-
-  // Configure your chassis controls
-  chassis.toggle_modify_curve_with_controller(true); // Enables modifying the controller curve with buttons on the joysticks
-  chassis.set_active_brake(0); // Sets the active brake kP. We recommend 0.1.
-  chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)
-  default_constants(); // Set the drive to your own constants from autons.cpp!
-  exit_condition_defaults(); // Set the exit conditions to your own constants from autons.cpp!
-  chassis.set_joystick_threshold(15);
-  // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
-  // chassis.set_left_curve_buttons (pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT); // If using tank, only the left side is used.
-  // chassis.set_right_curve_buttons(pros::E_CONTROLLER_DIGITAL_Y,    pros::E_CONTROLLER_DIGITAL_A);
-
-  // Autonomous Selector using LLEMU
-  ez::as::auton_selector.add_autons({
-    Auton("Example Drive\n\nDrive forward and come back.", drive_example),
-    Auton("Example Turn\n\nTurn 3 times.", turn_example),
-    Auton("Drive and Turn\n\nDrive forward, turn, come back. ", drive_and_turn),
-    Auton("Drive and Turn\n\nSlow down during drive.", wait_until_change_speed),
-    Auton("Swing Example\n\nSwing, drive, swing.", swing_example),
-    Auton("Combine all 3 movements", combining_movements),
-    Auton("Interference\n\nAfter driving forward, robot performs differently if interfered or not.", interfered_example),
-    Auton("Left Side Auton", l_auton),
-  });
-
-  // Initialize chassis and auton selector
-  chassis.initialize();
-  ez::as::initialize();
-}
+/**
+ * Initializes the robot and sets up the LCD
 */
-
-
-void initialize()
-{
+void initialize() {
   pros::screen::set_pen(COLOR_RED);
   pros::lcd::initialize();
-  //pros::lcd::register_btn0_cb(on_center_button);
-  //pros::lcd::set_text(7, "Hello World!");
-  pros::lcd::print(6, "Goofy ah", pros::lcd::read_buttons());
-  //pros::lcd::initialize();
-  //ez::as::initialize();
-  //ez::as::auton_selector.add_autons({
-    //Auton("Autonomous 1\nDrive Example", drive_example),
-    //Auton("Autonomous 2\nDrive And Turn", drive_and_turn),
-    //Auton("Autonomous 3\nTurn Example", turn_example),
-    //Auton("Autonomous 4\nLeft Autonoumous", l_auton),
-  //});
-  //ez::as::auton_selector.print_selected_auton();
-  //pros::lcd::register_btn0_cb(ez::as::page_down);
-  //pros::lcd::register_btn2_cb(ez::as::page_up);
-  //ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
-  // //l_auton();
+  pros::lcd::print(6, "Hello World", pros::lcd::read_buttons());
 }
 
-void competition_initialize() {
-  // . . .
-}
+/***/
+// void competition_initialize() { // runs before the standard initialize function starts
+//   // . . .
+// }
 
+/**
+ * This function first sets up the standard constants and settings for the robot to use during it's autonoumous routines
+ * Then, depending on the autonoumous routine selected, the robot will run the desired autonoumous routine
+*/
 void autonomous() {
   chassis.reset_gyro();
   chassis.reset_drive_sensor();
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
-  // ez::as::auton_selector.call_selected_auton();
 
+  // Uncomment the autonomous routine you want to run (Remeber to only uncomment one at a time)
   //flywheelTest();
   //LeftAuton();
   //drive_example();
@@ -202,14 +164,17 @@ void autonomous() {
   //swing_example();
 }
 
+/**
+ * This function in run during Operator Control
+ * it contains the main loop for the robot's movement, and subsystems
+*/
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   flywheel.set_brake_mode(MOTOR_BRAKE_COAST); // lets flywheel freespin
-  int iter = 0;
-  while (true) {
-    chassis.arcade_standard(ez::SPLIT);
+  while (true) { // This is the main loop for the robot where all the subsystems are called
+    chassis.arcade_standard(ez::SPLIT); // This is the drive function implemented by EZ-Template
     run_intake();
     run_flywheel();
     indexer();
