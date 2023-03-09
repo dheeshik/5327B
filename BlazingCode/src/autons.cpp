@@ -515,9 +515,3 @@ void interfered_example() {
  chassis.set_turn_pid(90, TURN_SPEED);
  chassis.wait_drive();
 }
-
-
-
-// . . .
-// Make your own autonomous functions here!
-// . . .
