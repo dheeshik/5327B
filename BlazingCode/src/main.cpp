@@ -153,7 +153,7 @@ void autonomous() {
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
 
 
-  // Uncomment the autonomous routine you want to run (Remeber to only uncomment one at a time)
+  // Uncomment the autonomous routine you want to run (Remember to only uncomment one at a time)
   //flywheelTest();
   //LeftAuton();
   //drive_example();
