@@ -157,8 +157,8 @@ void autonomous() {
   //flywheelTest();
   //LeftAuton();
   //drive_example();
-  generatedAuton();
-  //skillsAuton();
+  //generatedAuton();
+  skillsAuton();
   //flywheelTest();
   //turn_example();
   //swing_example();
