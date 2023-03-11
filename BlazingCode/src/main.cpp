@@ -1,5 +1,6 @@
 #include "main.h"
 #include <string>
+#include "FlyTBH.cpp"
 
 /**
  * The constructor for the ChassisControllerPID class through the EZ-Template library
@@ -192,6 +193,7 @@ void opcontrol() {
     run_intake();
     run_flywheel();
     indexer();
+    FlyTBH(400);
     expansion();
     int right_Y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
     pros::lcd::set_text(7, std::to_string(right_Y));
