@@ -169,10 +169,10 @@ void autonomous() {
 
   // Uncomment the autonomous routine you want to run (Remember to only uncomment one at a time)
   //flywheelTest();
-  //LeftAuton();
+  LeftAuton();
   //drive_example();
   //generatedAuton();
-  skillsAuton();
+  //skillsAuton();
   //flywheelTest();
   //turn_example();
   //swing_example();

@@ -96,7 +96,7 @@ void timedShot(int goalRPM){
     std::cout << "waiting for flywheel, current velocity = " << flywheel.get_actual_velocity() << "\n";
   }
   launchDisk();
-  pros::delay(50);
+  pros::delay(100);
 }
 
 // Autonomous Routines
@@ -244,9 +244,9 @@ void generatedAuton(){
   chassis.set_turn_pid(-28, TURN_SPEED);
   chassis.wait_drive();
 
-  timedShot(470);
-  timedShot(470);
-  timedShot(470);
+  timedShot(570);
+  timedShot(570);
+  timedShot(570);
   flywheel.move_velocity (0);
 
 
@@ -271,23 +271,23 @@ void generatedAuton(){
 // This is the close left side auton
 void LeftAuton(){
   default_constants();
-  chassis.set_drive_pid(4, DRIVE_SPEED, true);
+  chassis.set_drive_pid(3.5, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  intake.move_velocity(-600); //Rollers
-  pros::delay(250);
-  intake.move_velocity(0);
+  intake.move_absolute(-200, 300); //Rollers
+  pros::delay(500);
 
+  intake.move_velocity(0);
 
   chassis.set_drive_pid(-5, DRIVE_SPEED, true);
   chassis.wait_drive();
 
 
  // Move backward towards disk
-  chassis.set_turn_pid(48, TURN_SPEED); //Turn to high goal
+  chassis.set_turn_pid(48, TURN_SPEED);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(-33, DRIVE_SPEED, true, true);
+  chassis.set_drive_pid(-30, DRIVE_SPEED, true, true);
   chassis.wait_drive();
 
   chassis.set_turn_pid(135, TURN_SPEED);
@@ -295,26 +295,26 @@ void LeftAuton(){
 
   intake.move_velocity(600);
   
-
+  flywheel.move_voltage(12000);
   chassis.set_drive_pid(6, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  pros::delay(500);
+  pros::delay(1000);
 
   chassis.set_drive_pid(-6, DRIVE_SPEED, true);
   chassis.wait_drive();
 
   intake.move_velocity(0);
 
-  flywheel.move_velocity (600);
-  chassis.set_turn_pid(-27, TURN_SPEED);
+  
+  chassis.set_turn_pid(-27.5, TURN_SPEED);
   chassis.wait_drive();
   chassis.set_drive_pid(0, DRIVE_SPEED);
 
 
-  timedShot(470);
-  timedShot(470);
-  timedShot(470);
+  timedShot(500);
+  timedShot(500);
+  timedShot(500);
   // pros::delay(1900);
   // launchDisk();
   // pros::delay(500);
