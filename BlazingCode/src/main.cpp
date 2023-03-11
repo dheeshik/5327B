@@ -187,11 +187,6 @@ void opcontrol() {
   chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   flywheel.set_brake_mode(MOTOR_BRAKE_COAST); // lets flywheel freespin
-  float currentSpeed;
-  float output;
-  float error;
-  float gain = 1;
-  float prevOutput;
   while (true) { // This is the main loop for the robot where all the subsystems are called
     chassis.arcade_standard(ez::SPLIT); // This is the drive function implemented by EZ-Template
     run_intake();

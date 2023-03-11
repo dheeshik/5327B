@@ -91,12 +91,12 @@ void expand(){
 }
 
 void timedShot(int goalRPM){
-  flywheel.move_velocity(600);
+  flywheel.move_voltage(12000);
   while (flywheel.get_actual_velocity() < goalRPM){
     std::cout << "waiting for flywheel, current velocity = " << flywheel.get_actual_velocity() << "\n";
   }
   launchDisk();
-  pros::delay(200);
+  pros::delay(50);
 }
 
 // Autonomous Routines
@@ -113,10 +113,9 @@ void skillsAuton(){
   chassis.set_drive_pid(4, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  intake.move_velocity(600);
-  pros::delay(500);
-  intake.move_velocity(0);
-
+  // First Roller
+  intake.move_relative(200, 300);
+  pros::delay(1000);
 
   chassis.set_drive_pid(-4, DRIVE_SPEED, true);
   chassis.wait_drive();
@@ -132,20 +131,20 @@ void skillsAuton(){
   chassis.wait_drive();
   intake.move_velocity(0);
 
-  chassis.set_drive_pid(5, DRIVE_SPEED, true);
+  chassis.set_drive_pid(6, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  intake.move_velocity(600);
+  // Second Roller
+  intake.move_relative(200, 300);
   pros::delay(500);
-  intake.move_velocity(0);
 
-  flywheel.move_velocity(600);
+  flywheel.move_voltage(12000);
 
   chassis.set_drive_pid(-4, DRIVE_SPEED, true);
   chassis.wait_drive();
 
 
-  chassis.set_turn_pid(0, TURN_SPEED);
+  chassis.set_turn_pid(1, TURN_SPEED);
   chassis.wait_drive();
 
   chassis.set_drive_pid(-5, DRIVE_SPEED);
@@ -155,20 +154,18 @@ void skillsAuton(){
   timedShot(470);
   flywheel.move_velocity (0);
 
-  chassis.set_drive_pid(-2, SLOW_SPEED, true);
-  chassis.wait_drive();
 
 
   chassis.set_turn_pid(-135, TURN_SPEED);
   chassis.wait_drive();
   intake.move_velocity(600);
-  chassis.set_drive_pid(68.263, SLOW_SPEED, true);
+  chassis.set_drive_pid(66.5, SLOW_SPEED, true);
   chassis.wait_drive();
   intake.move_velocity(0);
 
 
   // SHOOTING SECOND TIME
-  flywheel.move_velocity (600);
+  flywheel.move_velocity(12000);
   chassis.set_turn_pid(-45, TURN_SPEED);
   chassis.wait_drive();
 
