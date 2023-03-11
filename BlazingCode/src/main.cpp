@@ -88,7 +88,7 @@ void run_flywheel() {
   controller.set_text(0, 0, std::to_string(flywheel.get_actual_velocity()));
 }
 
-
+/*
 void TakeBackHalf(int goal){
   currentSpeed = flywheel.get_actual_velocity();
 
@@ -101,6 +101,7 @@ void TakeBackHalf(int goal){
   flywheel.move_voltage(output*20);
   cout << "Current Flywheel Voltage is: " << output * 20 << " Milivolts\n" << "Current Velocity: " << currentSpeed;
 }
+*/
 
 /**
  * This function detects the button pressed on the controller's B button and extends the indexer piston to shoot the disk
@@ -200,9 +201,6 @@ void opcontrol() {
     int right_Y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
     pros::lcd::set_text(7, std::to_string(right_Y));
 
-
-    
-    TakeBackHalf(400);
   }
   pros::delay(ez::util::DELAY_TIME);
 }
