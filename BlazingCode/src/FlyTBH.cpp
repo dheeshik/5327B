@@ -8,7 +8,7 @@
   float gain = 2;
   float prevOutput;
 
-void TakeBackHalf (int goal){
+void FlyTBH (int goal){
 if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
   currentSpeed = flywheel.get_actual_velocity();
   error = goal - currentSpeed;
