@@ -68,7 +68,6 @@ void run_intake() {
      intake.move_velocity(0); // if neither bumper is pressed then stop the intake
      pros::lcd::set_text(6, "0");
   }
-
 }
 
 /**
@@ -85,8 +84,22 @@ void run_flywheel() {
     pros::lcd::set_text(6, "0");
   }
 
-  std::cout << "Flywheel Velocity: "<< std::to_string(flywheel.get_actual_velocity()) << "\n";
+  // std::cout << "Flywheel Velocity: "<< std::to_string(flywheel.get_actual_velocity()) << "\n";
   controller.set_text(0, 0, std::to_string(flywheel.get_actual_velocity()));
+}
+
+
+void TakeBackHalf(int goal){
+  currentSpeed = flywheel.get_actual_velocity();
+
+  error = goal - currentSpeed;
+  output = gain * error + output;
+  if (error < 0){
+    output = 0.5 * (prevOutput + output);
+  }
+  prevOutput = output;
+  flywheel.move_voltage(output*20);
+  cout << "Current Flywheel Voltage is: " << output * 20 << " Milivolts\n" << "Current Velocity: " << currentSpeed;
 }
 
 /**
@@ -173,6 +186,11 @@ void opcontrol() {
   chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   flywheel.set_brake_mode(MOTOR_BRAKE_COAST); // lets flywheel freespin
+  float currentSpeed;
+  float output;
+  float error;
+  float gain = 1;
+  float prevOutput;
   while (true) { // This is the main loop for the robot where all the subsystems are called
     chassis.arcade_standard(ez::SPLIT); // This is the drive function implemented by EZ-Template
     run_intake();
@@ -181,6 +199,10 @@ void opcontrol() {
     expansion();
     int right_Y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
     pros::lcd::set_text(7, std::to_string(right_Y));
+
+
+    
+    TakeBackHalf(400);
   }
   pros::delay(ez::util::DELAY_TIME);
 }

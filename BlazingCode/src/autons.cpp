@@ -68,29 +68,8 @@ void exit_condition_defaults() {
   chassis.set_exit_condition(chassis.drive_exit, 80, 50, 300, 150, 500, 500);
 }
 // BASIC BUILDING BLOCK FUNCTIONS
-void takeBackHalfFlywheel(float goal){
-  float error;
-  float currentSpeed;
-  float output;
-  float gain = 1.5;
-  float tbh = 0;
-  float prev_error;
-
-  flywheel.move_velocity (500);
-  while(true){
-    currentSpeed = flywheel.get_actual_velocity();
-    error = goal - currentSpeed;                // calculate the error;
-    output += gain * error;                   // integrate the output;
-    std::cout << "current Speed: " << currentSpeed << " Error: " << error << "\n";
-    if (signbit(error)!= signbit(prev_error)) { // if zero crossing,
-      output = 0.5 * (output + tbh);            // then Take Back Half
-      tbh = output;                             // update Take Back Half variable
-      prev_error = error;                       // and save the previous error
-    }
-    flywheel.move_velocity(tbh);
-  }
   
-}
+
 
 
 void launchDisk(){
@@ -134,7 +113,7 @@ void skillsAuton(){
   chassis.set_drive_pid(4, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  intake.move_velocity(-600);
+  intake.move_velocity(600);
   pros::delay(500);
   intake.move_velocity(0);
 
@@ -153,21 +132,23 @@ void skillsAuton(){
   chassis.wait_drive();
   intake.move_velocity(0);
 
-  chassis.set_drive_pid(4, DRIVE_SPEED, true);
+  chassis.set_drive_pid(5, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  intake.move_velocity(-600);
-  pros::delay(1000);
+  intake.move_velocity(600);
+  pros::delay(500);
+  intake.move_velocity(0);
 
   flywheel.move_velocity(600);
 
   chassis.set_drive_pid(-4, DRIVE_SPEED, true);
   chassis.wait_drive();
-  intake.move_velocity(0);
 
 
   chassis.set_turn_pid(0, TURN_SPEED);
   chassis.wait_drive();
+
+  chassis.set_drive_pid(-5, DRIVE_SPEED);
 
   timedShot(470);
   timedShot(470);
