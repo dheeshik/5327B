@@ -19,6 +19,8 @@ void interfered_example();
 void flywheelTest();
 void takeBackHalfFlywheel(float goal);
 
+void rightAuton();
+
 void default_constants();
 void one_mogo_constants();
 void two_mogo_constants();

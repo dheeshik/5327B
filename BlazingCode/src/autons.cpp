@@ -349,6 +349,11 @@ void LeftAuton(){
 
 }
 
+
+void rightAuton(){
+  
+}
+
 ///
 // Drive Example
 ///
