@@ -88,21 +88,6 @@ void run_flywheel() {
   controller.set_text(0, 0, std::to_string(flywheel.get_actual_velocity()));
 }
 
-/*
-void TakeBackHalf(int goal){
-  currentSpeed = flywheel.get_actual_velocity();
-
-  error = goal - currentSpeed;
-  output = gain * error + output;
-  if (error < 0){
-    output = 0.5 * (prevOutput + output);
-  }
-  prevOutput = output;
-  flywheel.move_voltage(output*20);
-  cout << "Current Flywheel Voltage is: " << output * 20 << " Milivolts\n" << "Current Velocity: " << currentSpeed;
-}
-*/
-
 /**
  * This function detects the button pressed on the controller's B button and extends the indexer piston to shoot the disk
  * only when the button is realeased will the piston retract
@@ -130,14 +115,12 @@ void expansion() {
   if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)){
     piston2.set_value(true);
     piston3.set_value(true);
-    pros::lcd::set_text(6, "Y");
     piston2Extended = true;
     piston3Extended = true;
   }
   else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
     piston2.set_value(false);
     piston3.set_value(false);
-    pros::lcd::set_text(6, "B");
     piston2Extended = false;
     piston3Extended = false;
   }
@@ -149,7 +132,7 @@ void expansion() {
 void initialize() {
   pros::screen::set_pen(COLOR_RED);
   pros::lcd::initialize();
-  pros::lcd::print(6, "Hello World", pros::lcd::read_buttons());
+  pros::lcd::print(6, "Hello World, from Sunny Dublin CA", pros::lcd::read_buttons());
 }
 
 /***/
@@ -178,10 +161,14 @@ void autonomous() {
  * it contains the main loop for the robot's movement, and subsystems
 */
 void opcontrol() {
-  // This is preference to what you like to drive on.
-  chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
-  chassis.set_drive_brake(MOTOR_BRAKE_COAST);
-  flywheel.set_brake_mode(MOTOR_BRAKE_COAST); // lets flywheel freespin
+  /* the robot will activly brake the drive motors 
+  in order to prevent the bot from being rammed while being still */
+  chassis.set_active_brake(0.1); 
+  /* The bot will not immediatly brake when the joysticks are realieased, instead it will slowly stop */
+  chassis.set_drive_brake(MOTOR_BRAKE_COAST); 
+
+  flywheel.set_brake_mode(MOTOR_BRAKE_COAST); // lets flywheel freespin even when there is no voltage supplied
+
   while (true) { // This is the main loop for the robot where all the subsystems are called
     chassis.arcade_standard(ez::SPLIT); // This is the drive function implemented by EZ-Template
     run_intake();
@@ -189,8 +176,7 @@ void opcontrol() {
     indexer();
     expansion();
     int right_Y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
-    pros::lcd::set_text(7, std::to_string(right_Y));
-
   }
+
   pros::delay(ez::util::DELAY_TIME);
 }
