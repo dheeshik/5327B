@@ -151,9 +151,9 @@ void autonomous() {
 
 
   // Uncomment the autonomous routine you want to run (Remember to only uncomment one at a time)
-  //LeftAuton();
+  LeftAuton();
   //rightAuton();
-  skillsAuton();
+  //skillsAuton();
 }
 
 /**
